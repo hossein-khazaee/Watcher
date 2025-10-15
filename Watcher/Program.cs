@@ -13,8 +13,6 @@ try
     var db = client.GetDatabase("accountingdb");
     var coll = db.GetCollection<BsonDocument>("transactions");
 
-    Console.WriteLine("✅ CDC Watcher started on single-node MongoDB (Primary)...");
-
     BsonDocument resumeToken = LoadResumeToken();
 
     var options = new ChangeStreamOptions
@@ -24,9 +22,7 @@ try
         StartAfter = resumeToken
     };
 
-    // --------------------------------------------
-    // Begin Watching
-    // --------------------------------------------
+
     using var cursor = coll.Watch(options);
 
     foreach (var change in cursor.ToEnumerable())
